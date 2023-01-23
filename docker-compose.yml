@@ -1,0 +1,45 @@
+version: '2.1'
+networks:
+  my-custom-network:
+    enable_ipv6: true
+services:
+  wireguard:
+    image: linuxserver/wireguard
+    container_name: wireguard
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    environment:
+      - USER=root
+      - PUID=1001
+      - PGID=1001
+      - VIRTUAL_HOST=torrent
+      - VIRTUAL_PORT=9091
+      - TZ=Europe/Paris
+    volumes:
+      - /some/path/to/wireguard/config:/config
+      - /lib/modules:/lib/modules
+    ports:
+      - 51820:51820/udp
+      - 9091:9091
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+      - net.ipv6.conf.all.disable_ipv6=0
+      - net.ipv6.conf.eth0.proxy_ndp=1
+    restart: unless-stopped
+
+  transmission:
+    image: linuxserver/transmission
+    container_name: transmission
+    environment:
+      - PUID=1001
+      - UGID=1001
+      - TZ=Europe/Paris
+      - TRANSMISSION_WEB_HOME=/transmission-web-control/
+    volumes:
+      - /some/path/to/transmission/config:/config
+      - /some/path/to/torrent-watch-folder:/watch
+      - /some/path/to/torrent-data:/downloads
+    depends_on:
+      - wireguard
+    network_mode: service:wireguard
