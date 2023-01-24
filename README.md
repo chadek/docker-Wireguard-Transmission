@@ -1,7 +1,7 @@
 docker-Wireguard-Transmission
 =========
 
-Docker compose for torrenting with transmission client behind wireguard tunnel inspirated from [this post](https://www.reddit.com/r/VPNTorrents/comments/j1ap68/my_docker_setup_for_torrenting_transmission/)
+A docker compose file for torrenting through a vpn tunnel, using transmission as torrent client and wireguard as vpn tunnel inspirated from [this post](https://www.reddit.com/r/VPNTorrents/comments/j1ap68/my_docker_setup_for_torrenting_transmission/)
 
 
 Requirements
