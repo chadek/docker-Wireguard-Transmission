@@ -25,6 +25,27 @@ Running this tool
 
 Wireguard configuration sample provided [here](https://github.com/chadek/docker-Wireguard-Transmission/blob/main/wireguard/wg0.conf) should be filed with proper values and mapped to the wireguard image by placing it into the path of the mounted volume for the container of that you will choose by replacing  this one */some/path/to/wireguard/config*.
 
-The wireguard config include some network post up script to nat correctly ipv4 through this mess of interfaces, more detail [here](https://github.com/linuxserver/docker-wireguard) 
+The wireguard config include some network post up script to nat correctly ipv4 through interfaces, more detail [here](https://github.com/linuxserver/docker-wireguard) 
 
-This docker-compose start a wireguard container with a provided configuration mounted througt a volume  
+After configuring properly wireguard, a simple run of this will bring everything up:
+
+```
+docker-compose up
+```
+
+Or if you want to run as a daemon in background:
+
+```
+docker-compose up -d 
+```
+
+To check that torrent client is effectively connected to your vpn ip, you can run the following command:
+
+```
+docker exec transmission sh -c 'curl -4 ifconfig.io'
+```
+and this for ipv6:
+
+```
+docker exec transmission sh -c 'curl -6 ifconfig.io'
+```
